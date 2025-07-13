@@ -1,0 +1,23 @@
+{
+    "binance_api_key": "yr8oNYJfI35mamk5hR1jWzYmjMhTPKauWlcjKmLFAnEucse7E2aCVNb2MSY1nt4f",
+    "binance_api_secret": "PGa4Liv1AS33ItUhTGJnP4b3FCS5h1SCcyMeO8e1chrYxH9A5XEP2AEZNRJv5gbs",
+    "tokens": [
+        "BTCUSDT",
+        "ETHUSDT"
+    ],
+    "interval": "1d",
+    "start_date": "2020-01-01",
+    "end_date": "2025-12-31",
+    "initial_capital": 10000,
+    "commission_rate": 0.00075,
+    "slippage_rate": 0.0001,
+    "strategy_params": {
+        "macd": {
+            "fast_period": 12,
+            "slow_period": 26,
+            "signal_period": 9
+        }
+    },
+    "trade_size_percentage": 0.95,
+    "data_path": "data/"
+}
