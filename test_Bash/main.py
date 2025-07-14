@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt # Needed for font setting in main sometimes
 import matplotlib as mpl
 import time
 # Import custom modules
-from utils import get_binance_klines, calculate_all_indicators
+from stock_quant.test_Bash.day_data import get_binance_klines, calculate_all_indicators
 from strategy import Strategy
 from backtester import Backtester
 from result_plot import plot_results

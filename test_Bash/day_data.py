@@ -68,28 +68,51 @@ def get_binance_klines(symbol, interval, start_str, end_str, client, data_path="
         print(f"Error fetching {symbol} data from Binance: {e}")
         return pd.DataFrame()
 
-def calculate_macd(data, fast_period=12, slow_period=26, signal_period=9):
-    """
-    计算 MACD 指标。
-    data: DataFrame，包含 'Close Price' 列
-    """
-    # 使用 ta 库计算 MACD
-    data['MACD'] = ta.trend.macd(data['Close Price'], window_fast=fast_period, window_slow=slow_period)
-    data['MACD_Signal'] = ta.trend.macd_signal(data['Close Price'], window_fast=fast_period, window_slow=slow_period, window_sign=signal_period)
-    data['MACD_Hist'] = ta.trend.macd_diff(data['Close Price'], window_fast=fast_period, window_slow=slow_period, window_sign=signal_period)
-    return data
 
-def calculate_all_indicators(data, strategy_name, params):
-    """
-    根据策略名称计算相应的指标。
-    """
-    if strategy_name == "macd":
-        return calculate_macd(data, 
-                              fast_period=params['fast_period'], 
-                              slow_period=params['slow_period'], 
-                              signal_period=params['signal_period'])
-    # 可以添加更多指标计算函数
-    # elif strategy_name == "bollinger_bands":
-    #     return calculate_bollinger_bands(data, ...)
-    else:
-        raise ValueError(f"Unknown strategy: {strategy_name}")
+
+if __name__ == "__main__":
+    import os
+    import pandas as pd
+    from binance.client import Client
+    from binance.enums import HistoricalKlinesType
+    
+    # 请替换为你的币安API密钥
+    api_key = 'YOUR_API_KEY'
+    api_secret = 'YOUR_API_SECRET'
+    
+    # 创建币安API客户端实例
+    client = Client(api_key, api_secret)
+    
+    # 定义要获取数据的加密货币列表（USDT交易对）
+    symbols = [
+        'BTCUSDT',  # 比特币
+        'ETHUSDT',  # 以太坊
+        'SOLUSDT',  # 索拉纳
+        'DOGEUSDT', # 狗狗币
+        'SUIUSDT',  # Sui
+        'ADAUSDT',  # 卡尔达诺
+        'DOTUSDT',  # 波卡
+        'XRPUSDT',  # 瑞波币
+        'LTCUSDT',  # 莱特币
+        'ONDOUSDT'  # 雪崩币
+    ]
+    
+    # 定义K线周期（1天）
+    interval = '4h'
+    
+    # 定义数据时间段
+    start_str = '1 Jan, 2018'
+    end_str = '31 Dec, 2025'
+    
+    # 定义数据保存路径
+    data_path = "data/4hour"
+    
+    # 循环获取每种加密货币的数据
+    for symbol in symbols:
+        df = get_binance_klines(symbol, interval, start_str, end_str, client, data_path)
+        if not df.empty:
+            print(f"\n成功获取 {symbol} 的数据:")
+            print(f"数据范围: {df.index.min()} 到 {df.index.max()}")
+            print(f"数据行数: {len(df)}\n")
+        else:
+            print(f"\n获取 {symbol} 的数据失败\n")
